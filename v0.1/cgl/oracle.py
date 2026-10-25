@@ -4,7 +4,7 @@ Section 19.1/19.2.  This module is measurement only: it imports nothing from
 the learner and the learner imports nothing from it, so scoring can never
 influence a hypothesis.
 
-The oracles live in `CTL/TestCases/oracles.py`, which maps a case number to an
+The oracles live in `TestCases/oracles.py`, which maps a case number to an
 executable predicate.  The universe is every binary string of length 1 to 6 ---
 126 strings --- which is the universe the CTL figures were measured over, so
 the numbers here sit directly beside CTL v2's 97.5% mean generalisation and

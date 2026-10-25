@@ -269,7 +269,7 @@ def main(argv=None):
         prog="cgl_client.py",
         description="CGL v0.1 — run the concept graph learner on a test case.")
     p.add_argument("--testcases", default=None,
-                   help="folder to scan (default: ../../CTL/TestCases)")
+                   help="folder to scan (default: TestCases)")
     p.add_argument("--case", help="run one case by number or folder name")
     p.add_argument("--file", help="run one case from a file")
     p.add_argument("--all", action="store_true", help="run every case found")
@@ -289,7 +289,7 @@ def main(argv=None):
                    help="keep training strings in the STR pool (§13.10 guard 1 "
                         "off); costs nothing when STREQ is disabled")
     p.add_argument("--no-oracle", action="store_true",
-                   help="skip scoring against CTL/TestCases/oracles.py")
+                   help="skip scoring against TestCases/oracles.py")
     p.add_argument("--universe", type=int, default=6,
                    help="longest string in the scoring universe (default 6)")
     p.add_argument("--no-colour", action="store_true")
@@ -304,7 +304,9 @@ def main(argv=None):
                  str_guard=not args.no_str_guard,
                  operators=tuple(args.ops.split(",")) if args.ops else None)
 
-    root = args.testcases or TC.default_root(HERE)
+    args.file = TC.resolve(args.file, HERE)
+    args.dot = TC.resolve(args.dot, HERE)
+    root = TC.resolve(args.testcases, HERE) or TC.default_root(HERE)
     cases = TC.scan(root, sigma=cfg.sigma)
     oracles = None if args.no_oracle else O.load(root, max_len=args.universe)
 

@@ -113,17 +113,17 @@ def scan(root, sigma="01"):
 
 
 def default_root(script_dir):
-    """`CGL/<version>/` sits two levels below the project root, next to `CTL/`."""
-    guesses = [
-        os.path.join(script_dir, "..", "..", "CGL", "TestCases"),
-        os.path.join(script_dir, "..", "CGL", "TestCases"),
-        os.path.join(script_dir, "TestCases"),
-    ]
-    for g in guesses:
-        g = os.path.normpath(g)
-        if os.path.isdir(g):
-            return g
-    return os.path.normpath(guesses[0])
+    """Every version keeps its own cases in `CGL/<version>/TestCases`."""
+    return os.path.normpath(os.path.join(script_dir, "TestCases"))
+
+
+def resolve(path, base):
+    """A relative path is taken relative to `base` (the version folder), not
+    the working directory, so a run reads and writes inside `CGL/<version>/`
+    wherever it is started from."""
+    if path is None or os.path.isabs(path):
+        return path
+    return os.path.normpath(os.path.join(base, path))
 
 
 def save(case, root, name=None):

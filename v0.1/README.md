@@ -26,8 +26,10 @@ python3 tests/test_cgl.py                  # 38 tests
 python3 experiments/measure.py all         # the generalisation numbers
 ```
 
-The client scans `../../CTL/TestCases` by default; `--testcases PATH` points it
-somewhere else. Menu option 2 builds a case by typing examples line by line
+The client scans `TestCases/` in this folder by default; `--testcases PATH`
+points it somewhere else. Relative paths given to `--testcases`, `--file` and
+`--dot` are taken relative to this folder, not the working directory, so every
+read and write stays under `CGL/v0.1/` wherever the client is started from. Menu option 2 builds a case by typing examples line by line
 (`<binary string> +` or `<binary string> -`, blank line to finish, `undo`,
 `cancel`), runs it, and offers to save it as a new `example.txt`.
 
@@ -61,7 +63,7 @@ cgl/bank.py        §21      the value bank: BUILD_BANK, RECORD, EXTRACT
 cgl/learn.py       §16.3–4  covering into DNF, MDL selection, identifiability
 cgl/testcases.py   §10      parsing, scanning, saving
 cgl/report.py      §20.4    terminal report
-cgl/oracle.py      §19.1–2  scoring against CTL/TestCases/oracles.py
+cgl/oracle.py      §19.1–2  scoring against TestCases/oracles.py
 cgl_client.py               menu + flags
 tests/test_cgl.py           tests, each naming the section it checks
 experiments/measure.py      every number in "Generalisation" below
@@ -99,7 +101,7 @@ Layer 2. Sizes run from 3 to 21 nodes.
 
 ## Results — generalisation
 
-Consistency is not recovery. Scored against `CTL/TestCases/oracles.py` over
+Consistency is not recovery. Scored against `TestCases/oracles.py` over
 every binary string of length 1–6 (126 strings), which is the universe the CTL
 figures were measured on. Reproduce with `python3 experiments/measure.py all`
 (35 s).

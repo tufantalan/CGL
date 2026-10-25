@@ -225,7 +225,7 @@ def main(argv=None):
     p.add_argument("--testcases", default=None)
     p.add_argument("--rounds", type=int, default=10)
     args = p.parse_args(argv)
-    setup(args.testcases or TC.default_root(ROOT))
+    setup(TC.resolve(args.testcases, ROOT) or TC.default_root(ROOT))
     todo = (["baseline", "guard", "committee", "active"]
             if args.command == "all" else [args.command])
     for name in todo:
