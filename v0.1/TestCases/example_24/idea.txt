@@ -1,0 +1,1 @@
+Çift sayı (E[0]) VE 5 bit uzunluk (LEN[5]) koşullarının aynı anda zorunlu kılındığı bir konjuksiyon: 5-bit uzunluğunda bir tanımlayıcının çift sayıya karşılık gelmesi. Kesme adımının ardından kalan dizginin uzunluğu kontrol edildiği için zincirde LEN[4]% görünür (parametre kayması). Modelin iki farklı niteliğin birleşimini doğru şekilde temsil edebildiğini gösterir.
