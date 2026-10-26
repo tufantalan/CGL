@@ -8,6 +8,7 @@ Run with no arguments for an interactive menu; run with flags to script it.
     python3 cgl_client.py --case 24             run one case by number or name
     python3 cgl_client.py --file path/to.txt    run a case from any file
     python3 cgl_client.py --all                 run every case, summary table
+    python3 cgl_client.py --rank                rank the atomic concepts
     python3 cgl_client.py --case 6 --profile full --max-size 7
 
 Stdlib only.  Colour is switched off automatically when output is redirected.
@@ -26,6 +27,9 @@ from cgl.learn import Config, learn                            # noqa: E402
 from cgl.lang import PROFILES                                  # noqa: E402
 from cgl import testcases as TC                                # noqa: E402
 from cgl import oracle as O                                    # noqa: E402
+from cgl import rank as RK                                     # noqa: E402
+
+REPORTS = os.path.join(HERE, "reports")
 
 
 # ---------------------------------------------------------------- helpers
@@ -128,6 +132,29 @@ def run_all(cases, cfg, args, oracles=None):
     print("")
 
 
+def run_rank(cases, cfg, args, oracles=None):
+    if not cases:
+        print(R.red("no test cases under the TestCases folder"))
+        return None
+    live = not args.quiet and sys.stdout.isatty()
+
+    def progress(label, name):
+        sys.stdout.write("\r  " + R.dim(("ranking: %s, %s …" % (label, name))
+                                        .ljust(60)))
+        sys.stdout.flush()
+
+    rk = RK.rank_concepts(cases, cfg, oracles,
+                          progress=progress if live else None)
+    if live:
+        sys.stdout.write("\r" + " " * 64 + "\r")
+    print(RK.render_report(rk))
+    txt, js = RK.save(rk, REPORTS)
+    print("  " + R.green("report saved to %s" % txt))
+    print("  " + R.dim("raw data saved to %s" % js))
+    print("")
+    return rk
+
+
 # ---------------------------------------------------------------- entry input
 
 def build_case_interactively(sigma="01"):
@@ -183,15 +210,17 @@ def menu(cases, root, cfg, args, oracles=None):
         print("  1  list and pick a test case")
         print("  2  build a new test case, line by line")
         print("  3  run every test case")
-        print("  4  settings   " + R.dim("(profile %s, maxSize %d, timeout %.0fs)"
+        print("  4  rank concepts   " + R.dim("(each atomic concept alone and "
+                                              "removed, vs. all; saved to reports/)"))
+        print("  5  settings   " + R.dim("(profile %s, maxSize %d, timeout %.0fs)"
                                          % (cfg.profile, cfg.max_size, cfg.timeout)))
-        print("  5  quit")
+        print("  6  quit")
         try:
             choice = input("\n  > ").strip().lower()
         except (EOFError, KeyboardInterrupt):
             print("")
             return
-        if choice in ("5", "q", "quit", "exit"):
+        if choice in ("6", "q", "quit", "exit"):
             return
         if choice == "1":
             list_cases(cases, root)
@@ -227,9 +256,11 @@ def menu(cases, root, cfg, args, oracles=None):
         elif choice == "3":
             run_all(cases, cfg, args, oracles)
         elif choice == "4":
+            run_rank(cases, cfg, args, oracles)
+        elif choice == "5":
             cfg = settings(cfg)
         else:
-            print("  " + R.red("pick 1–5"))
+            print("  " + R.red("pick 1–6"))
 
 
 def settings(cfg):
@@ -273,8 +304,10 @@ def main(argv=None):
     p.add_argument("--case", help="run one case by number or folder name")
     p.add_argument("--file", help="run one case from a file")
     p.add_argument("--all", action="store_true", help="run every case found")
+    p.add_argument("--rank", action="store_true",
+                   help="rank the atomic concepts; report saved to reports/")
     p.add_argument("--list", action="store_true", help="list the cases and exit")
-    p.add_argument("--profile", default="core", choices=sorted(PROFILES),
+    p.add_argument("--profile", default="full", choices=sorted(PROFILES),
                    help="operator profile (§18); default core")
     p.add_argument("--ops", help="explicit operator list, comma separated")
     p.add_argument("--max-size", type=int, default=8)
@@ -327,6 +360,8 @@ def main(argv=None):
             return 2
         run_all(cases, cfg, args, oracles)
         return 0
+    if args.rank:
+        return 0 if run_rank(cases, cfg, args, oracles) else 2
     if args.case:
         c = find_case(cases, args.case)
         if c is None:

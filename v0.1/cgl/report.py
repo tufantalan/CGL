@@ -17,6 +17,10 @@ def set_colour(on):
     _ON = bool(on)
 
 
+def colour_on():
+    return _ON
+
+
 def _c(code, s):
     return "\x1b[%sm%s\x1b[0m" % (code, s) if _ON else str(s)
 

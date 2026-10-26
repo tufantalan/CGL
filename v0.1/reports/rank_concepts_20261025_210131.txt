@@ -1,0 +1,149 @@
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│ CGL v0.1  —  concept ranking                                               │
+│ 29 cases, profile full, 26 atomic concepts, 2026-10-25 21:01:31            │
+╰────────────────────────────────────────────────────────────────────────────╯
+
+Setup
+──────────────────────────────────────────────────────────────────────────────
+  atomic concepts      TRIMHEAD, TRIMTAIL, PREFIX, SUFFIX, REVERSE, LEN, COUNT, COUNTSUB, MAXRUN, INDEXOF, DEC, HEAD, LAST, CHARAT, STARTSWITH, ENDSWITH, CONTAINS, STREQ, ADD, SUB, MUL, DIV, MOD, MIN, MAX, ABS
+  support (always on)  INPUT, INT, CHR, STR, TRUE, FALSE, EQ, NEQ, LT, LE, GT, GE, CHREQ, AND, OR, XOR, NOT
+  runs                 53 configurations × 29 cases = 1537 learner runs
+  oracle               yes — scored over Σ^1..6
+  total time           3328.5 s
+
+Reference — every concept enabled
+──────────────────────────────────────────────────────────────────────────────
+  consistent                 29 / 29
+  mean generalisation        69.6%
+    on passed cases          69.6%
+  mean unseen accuracy       67.2%
+  mean F1                    0.633
+  recovered                  4 / 29
+  mean answer size           4.9 nodes
+  mean minimal alternatives  5.1
+  mean MDL cost              29.1 bits
+  bank classes               1,627,382
+  tuples formed              11,921,463
+  collapse                   7.3×
+  time                       158.95 s
+
+Ranking — each concept in isolation  (support + X)
+──────────────────────────────────────────────────────────────────────────────
+   #  concept      cons  gen%  gen%✓  unseen%    F1  rec  =ref  size  ambig  classes   coll   sec  time/ref
+   1  COUNTSUB    20/29  59.8   57.4     58.3  0.30    0  8/29   8.8    5.8    3,206  22.0×  0.96        1%
+   2  CONTAINS    15/29  61.6   52.0     61.2  0.24    0  9/29   6.5    1.8    2,659  13.7×  0.52        0%
+   3  COUNT       12/29  69.2   66.7     69.5  0.22    1  7/29   9.6    4.8    1,339  21.6×  0.40        0%
+   4  ENDSWITH    11/29  65.0   64.9     65.7  0.22    2  6/29   5.9    2.3    1,962  17.3×  0.49        0%
+   5  MAXRUN      10/29  63.8   66.3     64.1  0.18    0  7/29   6.6    3.7    1,283  21.6×  0.38        0%
+   6  STARTSWITH   8/29  61.9   44.2     62.9  0.10    0  4/29   5.8    2.9    1,669  18.5×  0.44        0%
+   7  CHARAT       8/29  59.1   69.6     57.5  0.43    1  5/29   6.0    2.4    1,409  15.6×  0.32        0%
+   8  LEN          7/29  70.0   72.7     71.3  0.17    2  6/29   4.9    3.6      996  22.4×  0.31        0%
+   9  INDEXOF      7/29  63.1   61.9     63.4  0.12    0  3/29   5.6    8.0    2,328  32.5×  0.91        1%
+  10  DEC          4/29  68.2   61.1     69.7  0.10    0  2/29   5.5    5.0    1,176  21.2×  0.36        0%
+  11  HEAD         1/29  67.7  100.0     69.4  0.03    1  1/29   4.0    2.0      743  22.0×  0.22        0%
+  12  LAST         1/29  67.7  100.0     69.4  0.03    1  1/29   4.0    2.0      752  21.9×  0.23        0%
+  13  REVERSE      0/29  66.0      –     67.7  0.00    0  0/29     –      –      723  21.6×  0.20        0%
+  14  ABS          0/29  66.0      –     67.7  0.00    0  0/29     –      –      665  23.4×  0.21        0%
+  15  MIN          0/29  66.0      –     67.7  0.00    0  0/29     –      –      665  26.5×  0.22        0%
+  16  MAX          0/29  66.0      –     67.7  0.00    0  0/29     –      –      665  26.5×  0.23        0%
+  17  STREQ        0/29  66.0      –     67.7  0.00    0  0/29     –      –      665  27.5×  0.24        0%
+  18  DIV          0/29  66.0      –     67.7  0.00    0  0/29     –      –      665  26.5×  0.24        0%
+  19  MOD          0/29  66.0      –     67.7  0.00    0  0/29     –      –      665  26.5×  0.26        0%
+  20  TRIMHEAD     0/29  66.0      –     67.7  0.00    0  0/29     –      –      869  22.7×  0.27        0%
+  21  SUFFIX       0/29  66.0      –     67.7  0.00    0  0/29     –      –    1,474  16.1×  0.29        0%
+  22  TRIMTAIL     0/29  66.0      –     67.7  0.00    0  0/29     –      –    1,145  19.4×  0.32        0%
+  23  PREFIX       0/29  66.0      –     67.7  0.00    0  0/29     –      –      858  22.9×  0.70        0%
+  24  ADD          0/29  66.0      –     67.7  0.00    0  0/29     –      –    1,361  65.5×  1.09        1%
+  25  SUB          0/29  66.0      –     67.7  0.00    0  0/29     –      –    1,825  64.8×  1.43        1%
+  26  MUL          0/29  66.0      –     67.7  0.00    0  0/29     –      –    5,508  68.8×  4.50        3%
+
+Necessity — each concept removed  (all − X)
+──────────────────────────────────────────────────────────────────────────────
+  concept      cons  Δcons  gen%     Δgen  Δrec  unique   used     sec   Δtime
+  DEC         29/29      0  67.0  -2.7 pt     0       0   4/29   86.78  -45.4%
+  LEN         29/29      0  67.6  -2.0 pt  -1.0       0   6/29  133.52  -16.0%
+  PREFIX      29/29      0  67.8  -1.8 pt     0       0   2/29  120.84  -24.0%
+  SUFFIX      29/29      0  68.6  -1.1 pt     0       0   3/29  111.12  -30.1%
+  TRIMTAIL    29/29      0  68.8  -0.8 pt  -1.0       0   3/29  121.03  -23.9%
+  STREQ       29/29      0  69.6     0 pt  -1.0       0   1/29  127.64  -19.7%
+  MAXRUN      29/29      0  69.6     0 pt     0       0   0/29  125.27  -21.2%
+  INDEXOF     29/29      0  69.6     0 pt     0       0   0/29  111.41  -29.9%
+  LAST        29/29      0  69.6     0 pt     0       0   1/29  126.68  -20.3%
+  CHARAT      29/29      0  69.6     0 pt     0       0   0/29  124.59  -21.6%
+  ADD         29/29      0  69.6     0 pt     0       0   0/29  117.25  -26.2%
+  SUB         29/29      0  69.6     0 pt     0       0   0/29   92.39  -41.9%
+  MUL         29/29      0  69.6     0 pt     0       0   0/29  104.92  -34.0%
+  DIV         29/29      0  69.6     0 pt     0       0   0/29  107.24  -32.5%
+  MIN         29/29      0  69.6     0 pt     0       0   0/29  120.22  -24.4%
+  MAX         29/29      0  69.6     0 pt     0       0   0/29  117.52  -26.1%
+  ABS         29/29      0  69.6     0 pt     0       0   0/29  128.31  -19.3%
+  MOD         29/29      0  69.7  +0.1 pt  +1.0       0   1/29  106.42  -33.0%
+  REVERSE     29/29      0  69.8  +0.1 pt     0       0   4/29  117.55  -26.0%
+  COUNT       29/29      0  69.8  +0.2 pt     0       0   2/29  149.56   -5.9%
+  COUNTSUB    29/29      0  69.8  +0.2 pt     0       0   1/29  112.18  -29.4%
+  HEAD        29/29      0  69.8  +0.2 pt     0       0   3/29  133.40  -16.1%
+  TRIMHEAD    29/29      0  70.2  +0.6 pt     0       0   2/29  134.62  -15.3%
+  STARTSWITH  29/29      0  71.2  +1.6 pt  +1.0       0   3/29  141.91  -10.7%
+  ENDSWITH    29/29      0  71.5  +1.8 pt  +1.0       0   3/29  145.07   -8.7%
+  CONTAINS    29/29      0  76.2  +6.6 pt  +4.0       0  12/29  127.47  -19.8%
+
+Per case — which isolated concepts pass
+──────────────────────────────────────────────────────────────────────────────
+  case        ref  ref gen%  best alone       #pass  passing alone
+  example_1   ✓        49.2  COUNT 50.8           5  COUNTSUB, CONTAINS, COUNT, MAXRUN, LEN
+  example_2   ✓        52.4  CHARAT 100.0         7  COUNTSUB, CONTAINS, ENDSWITH, STARTSWITH, CHARAT, INDEXOF, HEAD
+  example_3   ✓        52.4  LAST 100.0           7  COUNTSUB, CONTAINS, ENDSWITH, STARTSWITH, INDEXOF, DEC, LAST
+  example_4   ✓        55.6  COUNT 77.0           9  COUNTSUB, CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, CHARAT, LEN, DEC
+  example_5   ✓        15.9  LEN 100.0            9  COUNTSUB, CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, CHARAT, LEN, INDEXOF
+  example_6   ✓        41.3  COUNT 100.0          8  COUNTSUB, CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, CHARAT, LEN
+  example_7   ✓       100.0  LEN 100.0            6  COUNTSUB, CONTAINS, COUNT, STARTSWITH, LEN, DEC
+  example_8   ✓        46.0  STARTSWITH 77.0      8  COUNTSUB, CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, CHARAT, DEC
+  example_9   ✓        28.6  ENDSWITH 76.2        4  COUNTSUB, CONTAINS, ENDSWITH, STARTSWITH
+  example_10  ✓        34.1  COUNT 93.7           5  COUNTSUB, COUNT, MAXRUN, CHARAT, LEN
+  example_11  ✓        77.0  ENDSWITH 77.0        1  ENDSWITH
+  example_12  ✓        98.4  LEN 95.2             3  COUNTSUB, COUNT, LEN
+  example_13  ✓        99.2  CHARAT 75.4          1  CHARAT
+  example_14  ✓       100.0  –                    0  —
+  example_15  ✓        77.8  CONTAINS 77.8        5  COUNTSUB, CONTAINS, COUNT, MAXRUN, INDEXOF
+  example_16  ✓       100.0  COUNTSUB 41.3        1  COUNTSUB
+  example_17  ✓        64.3  COUNT 56.3           1  COUNT
+  example_18  ✓        71.4  –                    0  —
+  example_19  ✓        46.0  COUNTSUB 59.5        3  COUNTSUB, CONTAINS, COUNT
+  example_20  ✓        71.4  –                    0  —
+  example_21  ✓        65.9  ENDSWITH 100.0       5  COUNTSUB, CONTAINS, ENDSWITH, MAXRUN, INDEXOF
+  example_22  ✓        86.5  ENDSWITH 100.0       5  COUNTSUB, CONTAINS, ENDSWITH, MAXRUN, INDEXOF
+  example_23  ✓       100.0  ENDSWITH 99.2        4  COUNTSUB, CONTAINS, ENDSWITH, MAXRUN
+  example_24  ✓        99.2  CHARAT 74.6          3  COUNTSUB, COUNT, CHARAT
+  example_25  ✓        95.2  –                    0  —
+  example_26  ✓        87.3  COUNTSUB 54.8        1  COUNTSUB
+  example_27  ✓        71.4  INDEXOF 87.3         1  INDEXOF
+  example_28  ✓        54.8  COUNTSUB 61.1        2  COUNTSUB, CONTAINS
+  example_29  ✓        77.8  –                    0  —
+
+Metrics
+──────────────────────────────────────────────────────────────────────────────
+  CGL's own (§16.4, §19.4, §21):
+    cons      cases with an answer making 0 training errors
+    size      mean tree size of the answer (nodes), passed cases only
+    ambig     mean number of distinct smallest consistent expressions
+              (§19.4, capped at 10); 1.0 = the data identifies the answer
+    classes   value-bank classes built over all cases (§21)
+    coll      collapse = tuples formed / classes kept (§21.7)
+    sec       wall time over all cases
+  Against the oracle (§19.2):
+    gen%      mean accuracy over every string of length 1–6; a failed case
+              has no hypothesis and is scored as answering false everywhere
+    gen%✓     the same, over the passed cases only
+    unseen%   the same, on strings not in the training set
+    F1        mean F1 of the positive class
+    rec       cases recovered exactly (100% on the universe)
+  Proposed for ranking:
+    =ref      cases where X alone is as good as the whole set
+              (consistent where the reference is, and no less accurate)
+    time/ref  isolated run time as a share of the reference — efficiency
+    Δ*        change against the reference when X is removed
+    unique    cases the reference solves that become unsolvable without X
+    used      reference answers whose graph contains X
+  Order: isolation table by cons, then gen%, rec, sec; necessity by Δgen.
+

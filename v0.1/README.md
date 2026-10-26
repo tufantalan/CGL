@@ -22,6 +22,7 @@ python3 cgl_client.py --list               # what test cases were found
 python3 cgl_client.py --case 24            # run one, by number or folder name
 python3 cgl_client.py --file some/case.txt # run one from anywhere
 python3 cgl_client.py --all                # every case, one summary table
+python3 cgl_client.py --rank               # rank the atomic concepts (menu 4)
 python3 tests/test_cgl.py                  # 38 tests
 python3 experiments/measure.py all         # the generalisation numbers
 ```
@@ -64,6 +65,9 @@ cgl/learn.py       §16.3–4  covering into DNF, MDL selection, identifiability
 cgl/testcases.py   §10      parsing, scanning, saving
 cgl/report.py      §20.4    terminal report
 cgl/oracle.py      §19.1–2  scoring against TestCases/oracles.py
+cgl/rank.py                 concept ranking: each atomic concept alone and
+                            removed, against the full set; reports/ holds
+                            rank_concepts_<date>_<time>.txt and .json
 cgl_client.py               menu + flags
 tests/test_cgl.py           tests, each naming the section it checks
 experiments/measure.py      every number in "Generalisation" below

@@ -1,0 +1,113 @@
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│ CGL v0.1  —  concept ranking                                               │
+│ 29 cases, profile core, 8 atomic concepts, 2026-10-25 20:50:29             │
+╰────────────────────────────────────────────────────────────────────────────╯
+
+Setup
+──────────────────────────────────────────────────────────────────────────────
+  atomic concepts      LEN, COUNT, MAXRUN, HEAD, LAST, STARTSWITH, ENDSWITH, CONTAINS
+  support (always on)  INPUT, INT, CHR, STR, TRUE, FALSE, EQ, NEQ, LT, LE, GT, GE, CHREQ
+  runs                 17 configurations × 29 cases = 493 learner runs
+  oracle               yes — scored over Σ^1..6
+  total time           5.6 s
+
+Reference — every concept enabled
+──────────────────────────────────────────────────────────────────────────────
+  consistent                 29 / 29
+  mean generalisation        66.4%
+    on passed cases          66.4%
+  mean unseen accuracy       63.7%
+  mean F1                    0.573
+  recovered                  4 / 29
+  mean answer size           6.0 nodes
+  mean minimal alternatives  3.2
+  mean MDL cost              31.6 bits
+  bank classes               3,691
+  tuples formed              63,574
+  collapse                   17.2×
+  time                       0.51 s
+
+Ranking — each concept in isolation  (support + X)
+──────────────────────────────────────────────────────────────────────────────
+  #  concept      cons  gen%  gen%✓  unseen%    F1  rec   =ref  size  ambig  classes   coll   sec  time/ref
+  1  CONTAINS    15/29  62.7   54.1     62.4  0.29    0  11/29   7.6    1.3      904  19.8×  0.14       28%
+  2  COUNT       12/29  69.2   66.7     69.5  0.22    1   7/29   9.6    4.8    1,339  16.7×  0.18       34%
+  3  ENDSWITH    11/29  65.1   64.9     65.7  0.22    2   8/29   6.3    1.2      864  20.7×  0.14       27%
+  4  MAXRUN      10/29  63.8   66.3     64.1  0.18    0   8/29   6.6    3.7    1,283  17.4×  0.18       34%
+  5  STARTSWITH   8/29  62.0   44.3     62.9  0.10    0   4/29   6.6    1.3      826  21.7×  0.14       27%
+  6  LEN          7/29  70.0   72.7     71.3  0.17    2   7/29   4.9    3.6      996  18.5×  0.14       27%
+  7  HEAD         1/29  67.7  100.0     69.4  0.03    1   1/29   4.0    2.0      743  20.6×  0.11       22%
+  8  LAST         1/29  67.7  100.0     69.4  0.03    1   1/29   4.0    2.0      752  20.4×  0.11       22%
+
+Necessity — each concept removed  (all − X)
+──────────────────────────────────────────────────────────────────────────────
+  concept      cons  Δcons  gen%     Δgen  Δrec  unique   used   sec   Δtime
+  LEN         29/29      0  60.4  -6.0 pt  -3.0       0  12/29  0.51   -0.8%
+  MAXRUN      29/29      0  66.4  -0.1 pt     0       0   4/29  0.45  -13.1%
+  HEAD        29/29      0  66.5  +0.1 pt     0       0   7/29  0.43  -15.8%
+  COUNT       29/29      0  67.5  +1.1 pt     0       0   4/29  0.44  -15.1%
+  ENDSWITH    29/29      0  67.5  +1.1 pt  +1.0       0   4/29  0.50   -1.9%
+  STARTSWITH  29/29      0  67.9  +1.5 pt  +1.0       0   3/29  0.50   -2.4%
+  LAST        29/29      0  68.1  +1.7 pt  +1.0       0   5/29  0.43  -15.6%
+  CONTAINS    29/29      0  73.5  +7.1 pt  +5.0       0  12/29  0.52   +1.4%
+
+Per case — which isolated concepts pass
+──────────────────────────────────────────────────────────────────────────────
+  case        ref  ref gen%  best alone       #pass  passing alone
+  example_1   ✓        49.2  CONTAINS 60.3        4  CONTAINS, COUNT, MAXRUN, LEN
+  example_2   ✓        52.4  HEAD 100.0           4  CONTAINS, ENDSWITH, STARTSWITH, HEAD
+  example_3   ✓        52.4  LAST 100.0           4  CONTAINS, ENDSWITH, STARTSWITH, LAST
+  example_4   ✓        55.6  COUNT 77.0           6  CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, LEN
+  example_5   ✓        15.9  LEN 100.0            6  CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, LEN
+  example_6   ✓        57.1  COUNT 100.0          6  CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH, LEN
+  example_7   ✓       100.0  LEN 100.0            4  CONTAINS, COUNT, STARTSWITH, LEN
+  example_8   ✓        28.6  STARTSWITH 77.0      5  CONTAINS, COUNT, ENDSWITH, MAXRUN, STARTSWITH
+  example_9   ✓        28.6  ENDSWITH 76.2        3  CONTAINS, ENDSWITH, STARTSWITH
+  example_10  ✓        34.1  COUNT 93.7           3  COUNT, MAXRUN, LEN
+  example_11  ✓        77.0  ENDSWITH 77.0        1  ENDSWITH
+  example_12  ✓        95.2  LEN 95.2             2  COUNT, LEN
+  example_13  ✓        56.3  –                    0  —
+  example_14  ✓        56.3  –                    0  —
+  example_15  ✓        77.8  CONTAINS 77.8        3  CONTAINS, COUNT, MAXRUN
+  example_16  ✓        60.3  –                    0  —
+  example_17  ✓        72.2  COUNT 56.3           1  COUNT
+  example_18  ✓       100.0  –                    0  —
+  example_19  ✓        46.0  CONTAINS 64.3        2  CONTAINS, COUNT
+  example_20  ✓       100.0  –                    0  —
+  example_21  ✓        65.9  ENDSWITH 100.0       3  CONTAINS, ENDSWITH, MAXRUN
+  example_22  ✓        86.5  ENDSWITH 100.0       3  CONTAINS, ENDSWITH, MAXRUN
+  example_23  ✓        77.0  ENDSWITH 99.2        3  CONTAINS, ENDSWITH, MAXRUN
+  example_24  ✓       100.0  COUNT 55.6           1  COUNT
+  example_25  ✓        81.0  –                    0  —
+  example_26  ✓        93.7  –                    0  —
+  example_27  ✓        87.3  –                    0  —
+  example_28  ✓        59.5  CONTAINS 56.3        1  CONTAINS
+  example_29  ✓        60.3  –                    0  —
+
+Metrics
+──────────────────────────────────────────────────────────────────────────────
+  CGL's own (§16.4, §19.4, §21):
+    cons      cases with an answer making 0 training errors
+    size      mean tree size of the answer (nodes), passed cases only
+    ambig     mean number of distinct smallest consistent expressions
+              (§19.4, capped at 10); 1.0 = the data identifies the answer
+    classes   value-bank classes built over all cases (§21)
+    coll      collapse = tuples formed / classes kept (§21.7)
+    sec       wall time over all cases
+  Against the oracle (§19.2):
+    gen%      mean accuracy over every string of length 1–6; a failed case
+              has no hypothesis and is scored as answering false everywhere
+    gen%✓     the same, over the passed cases only
+    unseen%   the same, on strings not in the training set
+    F1        mean F1 of the positive class
+    rec       cases recovered exactly (100% on the universe)
+  Proposed for ranking:
+    =ref      cases where X alone is as good as the whole set
+              (consistent where the reference is, and no less accurate)
+    time/ref  isolated run time as a share of the reference — efficiency
+    Δ*        change against the reference when X is removed
+    unique    cases the reference solves that become unsolvable without X
+    used      reference answers whose graph contains X
+  Order: isolation table by cons, then gen%, rec, sec; necessity by Δgen.
+
